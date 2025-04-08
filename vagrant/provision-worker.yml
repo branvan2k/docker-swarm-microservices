@@ -1,0 +1,49 @@
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar apt
+      apt:
+        update_cache: yes
+
+    - name: Instalar Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Añadir el usuario vagrant al grupo docker
+      user:
+        name: vagrant
+        groups: docker
+        append: yes # Asegura que se añada al grupo sin eliminar otros grupos
+
+    - name: Reiniciar el servicio Docker
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+    - name: Asegurarse de que el directorio ~/.ssh existe
+      file:
+        path: ~/.ssh
+        state: directory
+        mode: '0700'
+
+    - name: Obtener la clave pública del nodo manager
+      shell: |
+        ssh-keyscan -H 192.168.56.10 >> ~/.ssh/known_hosts
+      args:
+        creates: ~/.ssh/known_hosts
+
+    - name: Obtener el token del manager
+      shell: |
+        ssh -i /vagrant/.vagrant/machines/manager/virtualbox/private_key vagrant@192.168.56.10 cat /vagrant/worker_join_token.txt
+      register: swarm_token
+
+
+    - name: Unir al cluster Swarm
+      shell: |
+        docker swarm join --token {{ swarm_token.stdout }} 192.168.56.10:2377
+      args:
+        creates: /var/lib/docker/swarm
