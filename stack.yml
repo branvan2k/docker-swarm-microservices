@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Frontend y Proxy Inverso
+  proxy:
+    image: proxy:latest # Imagen personalizada de Nginx
+    ports:
+      - "80:80" # Puerto expuesto en todos los nodos
+    deploy:
+      mode: global # Un contenedor en cada nodo
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  # Microservicio de Autenticación
+  user-auth:
+    image: user-auth:latest
+    deploy:
+      replicas: 2 # Dos réplicas para alta disponibilidad
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  # Microservicio de Reservas
+  bus-reservation:
+    image: bus-reservation:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  # Microservicio de Pagos
+  payment-gateway:
+    image: payment-gateway:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+  # Microservicio de Rutas/Horarios
+  route-scheduler:
+    image: route-scheduler:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: overlay
