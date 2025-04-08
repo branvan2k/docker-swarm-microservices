@@ -3,7 +3,7 @@ name: Build and Push Docker Images for All Services
 on:
   push:
     branches:
-      - main # Solo se activa cuando se hace push a la rama main
+      - master # Solo se activa cuando se hace push a la rama main
     paths:
       - 'microservices/**' # Solo se activa si hay cambios en los microservicios
       - 'proxy/**' # Solo se activa si hay cambios en el proxy
