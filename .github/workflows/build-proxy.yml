@@ -27,8 +27,8 @@ jobs:
           # Listar archivos para depuración
           ls -l
           ls -l nginx.conf
-          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:${{ github.sha }} .
+          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:latest
