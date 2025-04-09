@@ -5,4 +5,4 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copiar los archivos del frontend al directorio de Nginx
-COPY ./frontend /usr/share/nginx/html
+COPY ../frontend /usr/share/nginx/html
