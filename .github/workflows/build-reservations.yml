@@ -24,8 +24,8 @@ jobs:
       - name: Build Docker image
         run: |
           cd microservices/bus-reservation/
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-microservices-bus-reservation:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-microservices-bus-reservation:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-microservices-bus-reservation:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-microservices-bus-reservation:latest
