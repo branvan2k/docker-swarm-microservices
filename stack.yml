@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Frontend y Proxy Inverso
   proxy:
-    image: proxy:latest # Imagen personalizada de Nginx
+    image: branvan2k/docker-swarm-proxy:latest # Imagen personalizada de Nginx
     ports:
       - "80:80" # Puerto expuesto en todos los nodos
     deploy:
@@ -15,7 +15,7 @@ services:
 
   # Microservicio de Autenticación
   user-auth:
-    image: user-auth:latest
+    image: branvan2k/docker-swarm-microservices-user-auth:latest
     deploy:
       replicas: 2 # Dos réplicas para alta disponibilidad
       restart_policy:
@@ -25,7 +25,7 @@ services:
 
   # Microservicio de Reservas
   bus-reservation:
-    image: bus-reservation:latest
+    image: branvan2k/docker-swarm-microservices-bus-reservation:latest
     deploy:
       replicas: 2
       restart_policy:
@@ -35,7 +35,7 @@ services:
 
   # Microservicio de Pagos
   payment-gateway:
-    image: payment-gateway:latest
+    image: branvan2k/docker-swarm-microservices-payment-gateway:latest
     deploy:
       replicas: 2
       restart_policy:
@@ -45,7 +45,7 @@ services:
 
   # Microservicio de Rutas/Horarios
   route-scheduler:
-    image: route-scheduler:latest
+    image: branvan2k/docker-swarm-microservices-route-scheduler:latest
     deploy:
       replicas: 2
       restart_policy:
