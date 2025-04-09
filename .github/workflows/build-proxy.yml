@@ -24,7 +24,10 @@ jobs:
       - name: Build Docker image
         run: |
           cd proxy/
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:${{ github.sha }} .
+          # Listar archivos para depuración
+          ls -l
+          ls -l nginx.conf
+          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/docker-swarm-proxy:${{ github.sha }} .
 
       - name: Push Docker image
         run: |
